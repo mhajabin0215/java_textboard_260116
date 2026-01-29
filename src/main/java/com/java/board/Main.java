@@ -1,23 +1,12 @@
 package com.sbs.java.board;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Main {
 
     static void makeArticleTestData(List<Article> articles) {
-    /*
-    articles.add(new Article(1, "제목1", "내용1"));
-    articles.add(new Article(2, "제목2", "내용2"));
-    articles.add(new Article(3, "제목3", "내용3"));
-     */
-
-    /*
-    for(int i = 1; i <= 3; i++ ){
-      articles.add(new Article(i, "제목" + i, "내용" + i);
-    }
-    */
-
         IntStream.rangeClosed(1, 100)
                 .forEach(i -> articles.add(new Article(i, "제목" + i, "내용" + i)));
     }
@@ -68,7 +57,24 @@ public class Main {
             } else if (rq.getUrlPath().equals("/usr/article/list")) {
                 Map<String, String> params = rq.getParams();
 
-                List<Article> sortedArticles = new ArrayList<>(articles);
+                // 검색 시작
+                // articles : 정렬되지 않은 1 ~ 100 게시물 객체를 품고 있는 리스트
+                List<Article> filteredArticles = new ArrayList<>(articles);
+
+                if(params.containsKey("searchKeyword")) {
+                    String searchKeyword = params.get("searchKeyword");
+                    //System.out.printf("%s\n", searchKeyword);
+                    // filteredArticles = new ArrayList<>(); // 새 리스트 객체 생성
+
+                    filteredArticles = articles.stream()
+                            .filter(article -> article.subject.contains(searchKeyword) || article.content.contains(searchKeyword))
+                            .collect(Collectors.toList());
+                }
+                // 검색 끝
+
+
+                // 정렬 로직
+                List<Article> sortedArticles = filteredArticles;
 
                 if (params.containsKey("orderBy")) {
                     String orderBy = params.get("orderBy");
@@ -87,8 +93,9 @@ public class Main {
                     // /usr/article/list 라고만 입력이 된 경우를 대비
                     sortedArticles.sort((a1, a2) -> a2.id - a1.id);
                 }
+                // 정렬 끝
 
-                System.out.println("== 게시물 리스트 ==");
+                System.out.printf("== 게시물 리스트(총 %d개) ==\n", sortedArticles.size());
                 System.out.println("번호 | 제목");
 
                 sortedArticles.forEach(
