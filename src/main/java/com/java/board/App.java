@@ -1,6 +1,8 @@
-package com.sbs.java.board;
+package com.java.board;
 
+import com.java.board.boundedContext.article.Article;
 import com.java.board.container.Container;
+import com.java.board.global.base.Rq;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class App {
-    public List<com.sbs.java.board.Article> articles;
+    public List<Article> articles;
     public int lastArticleId;
     public Scanner sc;
 
@@ -22,7 +24,9 @@ public class App {
 
     void makeArticleTestData() {
         IntStream.rangeClosed(1, 100)
-                .forEach(i -> articles.add(new com.sbs.java.board.Article(i, "제목" + i, "내용" + i)));
+                .forEach(i -> {
+                    articles.add(new Article(i, "제목" + i, "내용" + i));
+                });
     }
 
     void run() {
@@ -35,7 +39,7 @@ public class App {
             System.out.print("명령) ");
             String cmd = sc.nextLine();
 
-            com.sbs.java.board.Rq rq = new com.sbs.java.board.Rq(cmd);
+            Rq rq = new Rq(cmd);
 
             if (rq.getUrlPath().equals("/usr/article/write")) {
                 actionUsrArticleWrite();
@@ -61,7 +65,7 @@ public class App {
     }
 
 
-    private void actionUsrArticleDelete(com.sbs.java.board.Rq rq) {
+    private void actionUsrArticleDelete(Rq rq) {
         Map<String, String> params = rq.getParams();
 
         if (!params.containsKey("id")) {
@@ -83,7 +87,7 @@ public class App {
             return;
         }
 
-        com.sbs.java.board.Article article = findById(id, articles);
+        Article article = findById(id, articles);
 
         if (article == null) {
             System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -94,7 +98,7 @@ public class App {
         System.out.printf("%d번 게시물이 삭제되었습니다.\n", id);
     }
 
-    private void actionUsrArticleModify(com.sbs.java.board.Rq rq) {
+    private void actionUsrArticleModify(Rq rq) {
         Map<String, String> params = rq.getParams();
 
         if (!params.containsKey("id")) {
@@ -121,7 +125,7 @@ public class App {
             return;
         }
 
-        com.sbs.java.board.Article article = findById(id, articles);
+        Article article = findById(id, articles);
 
         if (article == null) {
             System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -162,13 +166,13 @@ public class App {
         int id = ++lastArticleId;
 
         // 객체 생성 후, 객체가 가지고 있는 변수에 데이터 저장
-        com.sbs.java.board.Article article = new com.sbs.java.board.Article(id, subject, content);
+        Article article = new Article(id, subject, content);
         articles.add(article);
 
         System.out.printf("%d번 게시물이 등록되었습니다.\n", id);
     }
 
-    private void actionUsrArticleDetail(com.sbs.java.board.Rq rq) {
+    private void actionUsrArticleDetail(Rq rq) {
         Map<String, String> params = rq.getParams();
 
         if (!params.containsKey("id")) {
@@ -195,7 +199,7 @@ public class App {
             return;
         }
 
-        com.sbs.java.board.Article article = findById(id, articles);
+        Article article = findById(id, articles);
 
         if (article == null) {
             System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -208,12 +212,12 @@ public class App {
         System.out.printf("내용 : %s\n", article.content);
     }
 
-    private void actionUsrArticleList(com.sbs.java.board.Rq rq) {
+    private void actionUsrArticleList(Rq rq) {
         Map<String, String> params = rq.getParams();
 
         // 검색 시작
         // articles : 정렬되지 않은 1 ~ 100 게시물 객체를 품고 있는 리스트
-        List<com.sbs.java.board.Article> filteredArticles = new ArrayList<>(articles);
+        List<Article> filteredArticles = new ArrayList<>(articles);
 
         if (params.containsKey("searchKeyword")) {
             String searchKeyword = params.get("searchKeyword");
@@ -226,7 +230,7 @@ public class App {
 
 
         // 정렬 로직
-        List<com.sbs.java.board.Article> sortedArticles = filteredArticles;
+        List<Article> sortedArticles = filteredArticles;
 
         if (params.containsKey("orderBy")) {
             String orderBy = params.get("orderBy");
@@ -254,7 +258,7 @@ public class App {
         );
     }
 
-    private com.sbs.java.board.Article findById(int id, List<com.sbs.java.board.Article> articles) {
+    private Article findById(int id, List<Article> articles) {
         return articles.stream()
                 .filter(article -> article.id == id)
                 .findFirst()
