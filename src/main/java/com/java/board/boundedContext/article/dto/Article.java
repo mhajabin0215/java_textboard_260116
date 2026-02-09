@@ -1,4 +1,4 @@
-package com.java.board.boundedContext.article;
+package com.java.board.boundedContext.article.dto;
 
 public class Article {
     public int id;
