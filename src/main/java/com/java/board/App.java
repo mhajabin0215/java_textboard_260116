@@ -21,7 +21,7 @@ public class App {
 
             Rq rq = new Rq(cmd);
 
-            if (rq.getUrlPath().equals("/usr/article/write")) {
+            if(rq.getUrlPath().equals("/usr/article/write")) {
                 articleController.doWrite();
             } else if (rq.getUrlPath().equals("/usr/article/list")) {
                 articleController.showList(rq);
