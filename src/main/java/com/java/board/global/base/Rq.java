@@ -1,12 +1,15 @@
 package com.java.board.global.base;
 
 import com.java.board.global.Util.Util;
+import lombok.Getter;
 
 import java.util.Map;
 
 public class Rq {
     public String url;
+    @Getter
     public Map<String, String> params;
+    @Getter
     public String urlPath;
 
     public Rq(String url) {
