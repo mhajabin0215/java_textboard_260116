@@ -1,9 +1,9 @@
 package com.java.board.container;
 
 import com.java.board.boundedContext.article.controller.ArticleController;
-import com.java.board.boundedContext.article.controller.ArticleController;
 import com.java.board.boundedContext.article.repository.ArticleRepository;
 import com.java.board.boundedContext.article.service.ArticleService;
+import com.java.board.boundedContext.member.controller.MemberController;
 
 import java.util.Scanner;
 
@@ -12,6 +12,8 @@ public class Container {
 
     public static ArticleRepository articleRepository;
     public static ArticleService articleService;
+
+    public static MemberController memberController;
     public static ArticleController articleController;
 
     // 프로그램 실행시 딱 한번 실행
@@ -22,6 +24,7 @@ public class Container {
 
         articleService = new ArticleService();
 
+        memberController = new MemberController();
         articleController = new ArticleController();
     }
 }
