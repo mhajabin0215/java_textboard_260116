@@ -1,5 +1,6 @@
 package com.java.board.boundedContext.member.controller;
 
+import com.java.board.boundedContext.member.dto.Member;
 import com.java.board.boundedContext.member.service.MemberService;
 import com.java.board.container.Container;
 import com.java.board.global.base.Rq;
@@ -16,6 +17,7 @@ public class MemberController {
         String password;
         String passwordConfirm;
         String name;
+        Member member;
 
         System.out.println("== 회원 가입 ==");
 
@@ -26,6 +28,13 @@ public class MemberController {
 
             if(username.trim().isEmpty()) {
                 System.out.println("로그인 아이디를 입력해주세요.");
+                continue;
+            }
+
+            member = memberService.findByUsername(username);
+
+            if(member != null) {
+                System.out.println("입력하신 로그인 아이디는 이미 존재합니다.");
                 continue;
             }
 
