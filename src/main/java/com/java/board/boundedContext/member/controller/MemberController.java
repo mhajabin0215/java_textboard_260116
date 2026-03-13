@@ -1,6 +1,5 @@
 package com.java.board.boundedContext.member.controller;
 
-import com.java.board.container.Container;
 import com.java.board.boundedContext.controller.Controller;
 import com.java.board.boundedContext.member.dto.Member;
 import com.java.board.boundedContext.member.service.MemberService;
@@ -109,11 +108,6 @@ public class MemberController implements Controller {
         String password;
         Member member;
 
-        if(rq.isLogined()) {
-            System.out.println("로그아웃 후 이용해주세요.");
-            return;
-        }
-
         System.out.println("== 로그인 ==");
 
         // 로그인 아이디 입력
@@ -182,11 +176,6 @@ public class MemberController implements Controller {
     }
 
     private void showMyPage(Rq rq) {
-        if(rq.isLogout()) {
-            System.out.println("로그인 후 이용해주세요.");
-            return;
-        }
-
         Member member = (Member) rq.getSessionAttr("loginedMember");
 
         System.out.printf("== '%s'님의 정보 ==\n", member.getUsername());
