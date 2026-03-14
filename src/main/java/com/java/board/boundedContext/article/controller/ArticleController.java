@@ -1,5 +1,6 @@
 package com.java.board.boundedContext.article.controller;
 
+import com.java.board.container.Container;
 import com.java.board.boundedContext.article.dto.Article;
 import com.java.board.boundedContext.article.service.ArticleService;
 import com.java.board.boundedContext.controller.Controller;
@@ -32,6 +33,8 @@ public class ArticleController implements Controller {
     }
 
     public void doWrite(Rq rq) {
+        int boardId = rq.getIntParam("boardId", 1);
+
         System.out.println("== 게시물 작성 ==");
         System.out.print("제목 : ");
         String subject = Container.sc.nextLine();
@@ -50,8 +53,10 @@ public class ArticleController implements Controller {
         }
 
         Member member = rq.getLoginedMember();
+        int memberId = member.getId();
+        String writerName = member.getName();
 
-        int id = articleService.write(subject, content, member.getId(), member.getName());
+        int id = articleService.write(subject, content, memberId, boardId, writerName);
 
         System.out.printf("%d번 게시물이 등록되었습니다.\n", id);
     }
@@ -63,10 +68,10 @@ public class ArticleController implements Controller {
         List<Article> articles = articleService.findAll(searchKeyword, orderBy);
 
         System.out.printf("== 게시물 리스트(총 %d개) ==\n", articles.size());
-        System.out.println("번호 | 제목 | 작성자");
+        System.out.println("번호 | 제목 | 작성자 | 게시판 번호");
 
         articles.forEach(
-                article -> System.out.printf("%d | %s | %s\n", article.getId(), article.getSubject(), article.getWriterName())
+                article -> System.out.printf("%d | %s | %s | %d\n", article.getId(), article.getSubject(), article.getWriterName(), article.getBoardId())
         );
     }
 
