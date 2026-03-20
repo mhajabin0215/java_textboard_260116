@@ -39,8 +39,8 @@ public class Rq {
 
     public void setCommand(String url) {
         this.url = url;
-        params = Util.getParamsFromUrl(this.url);
-        urlPath = Util.getPathFromUrl(this.url);
+        params = com.java.board.global.Util.Util.getParamsFromUrl(this.url);
+        urlPath = com.java.board.global.Util.Util.getPathFromUrl(this.url);
     }
 
     public String getActionPath() {

@@ -1,6 +1,7 @@
 package com.java.board.boundedContext.member.repository;
 
 import com.java.board.boundedContext.member.dto.Member;
+import com.java.board.global.Util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,16 +20,18 @@ public class MemberRepository {
     }
 
     void makeTestData() {
-        join("admin" ,"admin", "관리자");
-        join("user1" ,  "1234", "유저1");
-        join("java_good" ,  "5678", "자바최고");
-
+        join("admin", "admin", "관리자");
+        join("user1", "1234", "유저1");
+        join("java_good", "5678", "자바최고");
     }
 
     public void join(String username, String password, String name) {
         int id = ++lastId;
 
-        Member member = new Member(id, username, password, name);
+        String regDate = Util.getNowDateStr();
+        String updateDate = Util.getNowDateStr();
+
+        Member member = new Member(id, regDate, updateDate, username, password, name);
         members.add(member);
     }
 
