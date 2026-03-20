@@ -3,10 +3,17 @@ package com.java.board.container;
 import com.java.board.boundedContext.article.controller.ArticleController;
 import com.java.board.boundedContext.article.repository.ArticleRepository;
 import com.java.board.boundedContext.article.service.ArticleService;
+import com.java.board.boundedContext.article.service.ArticleService;
+import com.java.board.boundedContext.board.controller.BoardController;
+import com.java.board.boundedContext.board.repository.BoardRepository;
+import com.java.board.boundedContext.board.service.BoardService;
 import com.java.board.boundedContext.member.controller.MemberController;
+import com.java.board.boundedContext.member.repository.MemberRepository;
 import com.java.board.boundedContext.member.repository.MemberRepository;
 import com.java.board.boundedContext.member.service.MemberService;
 import com.java.board.global.interceptor.NeedLoginInterceptor;
+import com.java.board.global.interceptor.NeedLoginInterceptor;
+import com.java.board.global.interceptor.NeedLogoutInterceptor;
 import com.java.board.global.interceptor.NeedLogoutInterceptor;
 import com.java.board.global.session.Session;
 
@@ -19,12 +26,15 @@ public class Container {
     public static NeedLoginInterceptor needLoginInterceptor;
     public static NeedLogoutInterceptor needLogoutInterceptor;
 
+    public static BoardRepository boardRepository;
     public static MemberRepository memberRepository;
     public static ArticleRepository articleRepository;
 
+    public static BoardService boardService;
     public static MemberService memberService;
     public static ArticleService articleService;
 
+    public static BoardController boardController;
     public static MemberController memberController;
     public static ArticleController articleController;
 
@@ -36,12 +46,15 @@ public class Container {
         needLoginInterceptor = new NeedLoginInterceptor();
         needLogoutInterceptor = new NeedLogoutInterceptor();
 
+        boardRepository = new BoardRepository();
         memberRepository = new MemberRepository();
         articleRepository = new ArticleRepository();
 
+        boardService = new BoardService();
         memberService = new MemberService();
         articleService = new ArticleService();
 
+        boardController = new BoardController();
         memberController = new MemberController();
         articleController = new ArticleController();
     }
