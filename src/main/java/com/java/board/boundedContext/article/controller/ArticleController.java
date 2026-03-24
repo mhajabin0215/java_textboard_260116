@@ -66,7 +66,6 @@ public class ArticleController implements Controller {
                 board -> System.out.printf("%d | %s | %s\n", board.getId(), board.getName(), board.getCode())
         );
 
-
         System.out.printf("== '%s' 게시물 작성 ==\n", selectedBoard.getName());
         System.out.print("제목 : ");
         String subject = Container.sc.nextLine();
@@ -96,6 +95,7 @@ public class ArticleController implements Controller {
     public void showList(Rq rq) {
         String searchKeyword = rq.getParam("searchKeyword", "");
         String orderBy = rq.getParam("orderBy", "idDesc");
+        // int boardId = rq.getIntParam("boardId", 0);
 
         List<Article> articles = articleService.findAll(searchKeyword, orderBy);
 
