@@ -47,8 +47,7 @@ public class ArticleRepository {
     public List<Article> findAll(String searchKeyword, String orderBy, int boardId) {
         if(boardId > 0) {
             // 게시판 별로 게시물 리스팅 수행
-            List<Article> boardArticles = getBoardInArticles(boardId);
-
+            List<Article> boardArticles = findAllByBoardId(boardId);
             // 정렬 수행
             return sortArticles(boardArticles, orderBy);
         }
@@ -60,7 +59,7 @@ public class ArticleRepository {
         return sortArticles(filteredArticles, orderBy);
     }
 
-    private List<Article> getBoardInArticles(int boardId) {
+    private List<Article> findAllByBoardId(int boardId) {
         return findAll().stream()
                 .filter(article -> article.getBoardId() == boardId)
                 .collect(Collectors.toList());
@@ -123,5 +122,10 @@ public class ArticleRepository {
                 .filter(article -> article.getId() == id)
                 .findFirst()
                 .orElse(null);
+    }
+    public int getArticleCountByBoardId(int boardId) {
+        return (int) articles.stream()
+                .filter(article -> article.getBoardId() == boardId)
+                .count();
     }
 }
